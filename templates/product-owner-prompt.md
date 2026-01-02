@@ -45,7 +45,18 @@ Como Product Owner, preciso que você:
 ### Para Análise de Requisitos
 ```
 Analise os seguintes requisitos e crie user stories detalhadas:
-[Inserir requisitos aqui]
+
+- Sistema de gerenciamento de projetos do tipo kanbam.
+- cada tarefa é separado por etapa(ex: backlog, todo, doing, etc);
+- cada etapa pertence a um projeto. Primeiro o usuário cria um projeto, depois cria etapa, depois cria tarefa.
+- o gerenciamento das etapas é feito através de um sistema de drag and Drop;
+- no sistema de drag and drop, cada tarefa pode ser movido de posição da lista de tarefas e também pode ser movido para outra etapa.
+- cada tarefa terá a opção de criar uma lista de sub tarefa.
+- cada sub tarefa poderá ser editado e excluído.
+- cada subtarefa poderá ser marcado como feito e poderá ser desmarcado
+- o sistema deverá ser feito com o framework next do react;
+- a interação com o banco de dados será feita com a api routes do next. Para interagir com o banco de dados deverá ser usado o sdk do neon para interagir diretamente com o neon;
+- fazer o visual com elegância, intuitiva, moderna, com boas práticas de ux e ui design;
 
 Foque em:
 - Identificar personas
