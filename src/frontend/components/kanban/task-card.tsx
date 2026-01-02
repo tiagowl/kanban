@@ -55,43 +55,53 @@ export function TaskCard({ task }: TaskCardProps) {
         {...attributes}
         {...listeners}
         className={`
-          bg-white rounded-lg p-4 shadow cursor-grab active:cursor-grabbing
-          hover:shadow-md transition-shadow duration-150
-          ${isDragging ? 'scale-105 shadow-lg z-50' : ''}
+          bg-white rounded-xl p-4 shadow-sm border border-gray-200 cursor-grab active:cursor-grabbing
+          hover:shadow-lg hover:border-gray-300 transition-all duration-200
+          ${isDragging ? 'scale-105 shadow-xl border-primary-300 z-50 rotate-2' : ''}
         `}
       >
-        <div onClick={(e) => {
-          // Só abre modal se não estiver arrastando
-          if (!isDragging) {
-            setIsModalOpen(true)
-          }
-        }}>
-          <h4 className="font-medium text-gray-900 mb-1">{task.titulo}</h4>
+        <div 
+          onClick={(e) => {
+            // Só abre modal se não estiver arrastando
+            if (!isDragging) {
+              setIsModalOpen(true)
+            }
+          }}
+          className="cursor-pointer"
+        >
+          <h4 className="font-semibold text-gray-900 mb-1.5 text-[15px] leading-snug line-clamp-2">
+            {task.titulo}
+          </h4>
           
           {/* Data de última atualização */}
-          <div className="text-xs text-gray-400 mb-2">
-            {formatUpdateTime(task.atualizado_em)}
+          <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-3">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{formatUpdateTime(task.atualizado_em)}</span>
           </div>
           
           {task.descricao && (
-            <p className="text-sm text-gray-600 line-clamp-2 mb-2">
+            <p className="text-sm text-gray-600 line-clamp-2 mb-3 leading-relaxed">
               {task.descricao}
             </p>
           )}
 
           {hasSubtasks && (
-            <div className="mt-2 space-y-1">
-              <div className="flex items-center justify-between text-xs text-gray-500">
-                <div className="flex items-center gap-1">
-                  <span>✓</span>
-                  <span>{completedSubtasks}/{totalSubtasks}</span>
+            <div className="mt-3 pt-3 border-t border-gray-100 space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-1.5 text-gray-600">
+                  <svg className="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                  <span className="font-medium">{completedSubtasks}/{totalSubtasks}</span>
                 </div>
-                <span className="font-medium">{Math.round((completedSubtasks / totalSubtasks) * 100)}%</span>
+                <span className="font-semibold text-primary-600">{Math.round((completedSubtasks / totalSubtasks) * 100)}%</span>
               </div>
               {/* Barra de progresso */}
-              <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+              <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden shadow-inner">
                 <div
-                  className="h-full bg-primary-500 transition-all duration-300 rounded-full"
+                  className="h-full bg-gradient-to-r from-primary-500 to-primary-600 transition-all duration-500 rounded-full shadow-sm"
                   style={{ width: `${(completedSubtasks / totalSubtasks) * 100}%` }}
                   role="progressbar"
                   aria-valuenow={completedSubtasks}
