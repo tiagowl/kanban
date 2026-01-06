@@ -206,7 +206,7 @@ export default function ProjectsPage() {
           <DialogHeader>
             <DialogTitle>Confirmar Exclusão</DialogTitle>
             <DialogDescription>
-              Tem certeza que deseja excluir o projeto "{selectedProject?.name}"?
+              Tem certeza que deseja excluir o projeto &quot;{selectedProject?.name}&quot;?
               <span className="block mt-2 text-destructive font-semibold">
                 Esta ação irá excluir permanentemente:
               </span>

@@ -242,7 +242,7 @@ export function StageManager({ projectId }: StageManagerProps) {
           <DialogHeader>
             <DialogTitle>Confirmar Exclusão</DialogTitle>
             <DialogDescription>
-              Tem certeza que deseja excluir a etapa "{selectedStage?.name}"?
+              Tem certeza que deseja excluir a etapa &quot;{selectedStage?.name}&quot;?
               {selectedStage?.tasks && selectedStage.tasks.length > 0 && (
                 <span className="block mt-2 text-destructive font-semibold">
                   Esta etapa possui {selectedStage.tasks.length} tarefa(s). 

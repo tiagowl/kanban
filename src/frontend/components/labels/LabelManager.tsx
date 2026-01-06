@@ -144,7 +144,7 @@ export function LabelManager({ projectId }: LabelManagerProps) {
           <DialogHeader>
             <DialogTitle>Excluir Etiqueta</DialogTitle>
             <DialogDescription>
-              Tem certeza que deseja excluir a etiqueta "{deletingLabel?.name}"?
+              Tem certeza que deseja excluir a etiqueta &quot;{deletingLabel?.name}&quot;?
               Esta ação não pode ser desfeita.
             </DialogDescription>
           </DialogHeader>
