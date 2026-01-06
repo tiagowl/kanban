@@ -29,9 +29,9 @@ export default function ProjectPage() {
   }, [isAuthenticated, authLoading, router])
 
   useEffect(() => {
-    const savedViewMode = localStorage.getItem(`viewMode-${params.id}`) as ViewMode | null
-    if (savedViewMode && savedViewMode !== 'labels' && savedViewMode !== 'stages') {
-      setViewMode(savedViewMode)
+    const savedViewMode = localStorage.getItem(`viewMode-${params.id}`)
+    if (savedViewMode && (savedViewMode === 'kanban' || savedViewMode === 'list')) {
+      setViewMode(savedViewMode as ViewMode)
     }
   }, [params.id])
 
