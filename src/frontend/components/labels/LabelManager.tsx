@@ -48,9 +48,9 @@ export function LabelManager({ projectId }: LabelManagerProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Etiquetas do Projeto</h3>
-        <Button onClick={() => setIsCreateOpen(true)} size="sm">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <h3 className="text-lg sm:text-xl font-semibold">Etiquetas do Projeto</h3>
+        <Button onClick={() => setIsCreateOpen(true)} size="sm" className="w-full sm:w-auto">
           <Plus className="h-4 w-4 mr-2" />
           Nova Etiqueta
         </Button>
@@ -68,7 +68,7 @@ export function LabelManager({ projectId }: LabelManagerProps) {
           </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {labels.map((label) => (
             <div
               key={label.id}

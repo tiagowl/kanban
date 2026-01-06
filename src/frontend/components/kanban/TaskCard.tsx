@@ -70,32 +70,32 @@ export function TaskCard({ task, isDragging: externalDragging, onDeleted }: Task
           isDragging ? 'ring-2 ring-primary ring-offset-2' : ''
         }`}
       >
-        <CardContent className="p-4">
+        <CardContent className="p-3 sm:p-4">
           <div className="flex items-start justify-between gap-2 mb-2">
             <h3 
               {...listeners}
               {...attributes}
-              className="font-semibold flex-1 cursor-grab active:cursor-grabbing"
+              className="font-semibold text-sm sm:text-base flex-1 cursor-grab active:cursor-grabbing min-w-0"
               style={{ touchAction: 'none' }}
             >
-              {task.title}
+              <span className="line-clamp-2">{task.title}</span>
             </h3>
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 flex-shrink-0"
+              className="h-6 w-6 sm:h-7 sm:w-7 flex-shrink-0"
               onClick={handleOpenDetails}
               title="Ver detalhes"
             >
-              <Info className="h-4 w-4" />
+              <Info className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
           </div>
           {task.description && (
-            <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2">
               {task.description}
             </p>
           )}
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
             {task.labels?.map((taskLabel) => (
               <Badge
                 key={taskLabel.id}

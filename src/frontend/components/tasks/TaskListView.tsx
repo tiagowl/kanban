@@ -65,16 +65,16 @@ export function TaskListView({ projectId }: TaskListViewProps) {
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        <Button onClick={() => setIsCreateOpen(true)}>
+        <Button onClick={() => setIsCreateOpen(true)} className="w-full sm:w-auto">
           <Plus className="h-4 w-4 mr-2" />
           Nova Tarefa
         </Button>
       </div>
 
       {tasks.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground mb-4">Nenhuma tarefa criada</p>
-          <Button onClick={() => setIsCreateOpen(true)}>
+        <div className="text-center py-8 sm:py-12">
+          <p className="text-muted-foreground mb-4 text-sm sm:text-base">Nenhuma tarefa criada</p>
+          <Button onClick={() => setIsCreateOpen(true)} className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
             Criar Primeira Tarefa
           </Button>
@@ -91,12 +91,12 @@ export function TaskListView({ projectId }: TaskListViewProps) {
                 className="cursor-pointer hover:shadow-md transition-shadow"
                 onClick={() => handleTaskClick(task)}
               >
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <h3 className="font-semibold mb-1">{task.title}</h3>
+                <CardContent className="p-3 sm:p-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-sm sm:text-base mb-1 line-clamp-1">{task.title}</h3>
                       {task.description && (
-                        <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+                        <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2">
                           {task.description}
                         </p>
                       )}

@@ -38,22 +38,22 @@ export function KanbanColumn({
   })
 
   return (
-    <div className="flex-shrink-0 w-80">
+    <div className="flex-shrink-0 w-[280px] sm:w-80">
       <Card
         ref={setNodeRef}
         className={`h-full transition-all ${
           isOver ? 'ring-2 ring-primary ring-offset-2 bg-accent/50' : ''
         }`}
       >
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center justify-between">
-            <span>{stage.name}</span>
-            <span className="text-sm font-normal text-muted-foreground">
+        <CardHeader className="pb-3 px-3 sm:px-6">
+          <CardTitle className="flex items-center justify-between text-sm sm:text-base">
+            <span className="truncate flex-1">{stage.name}</span>
+            <span className="text-xs sm:text-sm font-normal text-muted-foreground ml-2 flex-shrink-0">
               {tasks.length}
             </span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2 max-h-[calc(100vh-300px)] overflow-y-auto">
+        <CardContent className="space-y-2 px-3 sm:px-6 max-h-[calc(100vh-220px)] sm:max-h-[calc(100vh-300px)] overflow-y-auto">
           <SortableContext
             items={tasks.map((t) => t.id)}
             strategy={verticalListSortingStrategy}
@@ -69,11 +69,12 @@ export function KanbanColumn({
           </SortableContext>
           <Button
             variant="ghost"
-            className="w-full justify-start text-muted-foreground"
+            className="w-full justify-start text-muted-foreground text-xs sm:text-sm"
             onClick={() => setIsCreateOpen(true)}
           >
             <Plus className="h-4 w-4 mr-2" />
-            Adicionar tarefa
+            <span className="hidden sm:inline">Adicionar tarefa</span>
+            <span className="sm:hidden">Adicionar</span>
           </Button>
         </CardContent>
       </Card>

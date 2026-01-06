@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useProjects } from '@/hooks/useProjects'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -11,6 +11,7 @@ interface ProjectFormProps {
   onSuccess?: () => void
   onCancel?: () => void
   initialData?: {
+    id?: string
     name?: string
     description?: string
   }
@@ -20,18 +21,35 @@ export function ProjectForm({ onSuccess, onCancel, initialData }: ProjectFormPro
   const [name, setName] = useState(initialData?.name || '')
   const [description, setDescription] = useState(initialData?.description || '')
   const [loading, setLoading] = useState(false)
-  const { createProject } = useProjects()
+  const { createProject, updateProject } = useProjects()
+  const isEditing = !!initialData?.id
+
+  useEffect(() => {
+    if (initialData) {
+      setName(initialData.name || '')
+      setDescription(initialData.description || '')
+    }
+  }, [initialData])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     try {
-      await createProject({ name, description: description || undefined })
+      if (isEditing && initialData?.id) {
+        await updateProject(initialData.id, {
+          name,
+          description: description || undefined,
+        })
+      } else {
+        await createProject({ name, description: description || undefined })
+      }
       onSuccess?.()
-      setName('')
-      setDescription('')
+      if (!isEditing) {
+        setName('')
+        setDescription('')
+      }
     } catch (error) {
-      console.error('Error creating project:', error)
+      console.error(`Error ${isEditing ? 'updating' : 'creating'} project:`, error)
     } finally {
       setLoading(false)
     }
@@ -59,14 +77,14 @@ export function ProjectForm({ onSuccess, onCancel, initialData }: ProjectFormPro
           rows={3}
         />
       </div>
-      <div className="flex justify-end gap-2">
+      <div className="flex flex-col-reverse sm:flex-row justify-end gap-2">
         {onCancel && (
-          <Button type="button" variant="outline" onClick={onCancel}>
+          <Button type="button" variant="outline" onClick={onCancel} className="w-full sm:w-auto">
             Cancelar
           </Button>
         )}
-        <Button type="submit" disabled={loading}>
-          {loading ? 'Salvando...' : 'Criar'}
+        <Button type="submit" disabled={loading || !name.trim()} className="w-full sm:w-auto">
+          {loading ? 'Salvando...' : isEditing ? 'Salvar Alterações' : 'Criar'}
         </Button>
       </div>
     </form>

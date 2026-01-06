@@ -40,15 +40,15 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl text-center">Criar Conta</CardTitle>
-          <CardDescription className="text-center">
+        <CardHeader className="space-y-1.5">
+          <CardTitle className="text-xl sm:text-2xl text-center">Criar Conta</CardTitle>
+          <CardDescription className="text-center text-sm">
             Crie sua conta para começar a usar o Sistema Kanban
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Nome (opcional)</Label>

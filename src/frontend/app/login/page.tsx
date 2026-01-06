@@ -41,15 +41,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl text-center">Sistema Kanban</CardTitle>
-          <CardDescription className="text-center">
+        <CardHeader className="space-y-1.5">
+          <CardTitle className="text-xl sm:text-2xl text-center">Sistema Kanban</CardTitle>
+          <CardDescription className="text-center text-sm">
             Faça login para acessar seus projetos
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>

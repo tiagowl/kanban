@@ -37,6 +37,7 @@ export function useProjects() {
   const createProject = useCallback(async (input: CreateProjectInput) => {
     try {
       const newProject = await api.post<Project>('/projects', input)
+      // Adiciona o novo projeto no início da lista
       setProjects((prev) => [newProject, ...prev])
       toast({
         title: 'Sucesso',

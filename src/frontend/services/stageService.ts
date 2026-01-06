@@ -91,6 +91,11 @@ export async function updateStage(
     throw new Error('Stage not found or unauthorized')
   }
 
+  // Se está mudando a ordem, precisamos reordenar as outras etapas
+  if (input.order !== undefined && input.order !== stage.order) {
+    return await reorderStages(stageId, input.order, stage.projectId, userId)
+  }
+
   return prisma.stage.update({
     where: { id: stageId },
     data: input,
@@ -101,6 +106,82 @@ export async function updateStage(
         },
       },
     },
+  })
+}
+
+async function reorderStages(
+  stageId: string,
+  newOrder: number,
+  projectId: string,
+  userId: string
+): Promise<Stage> {
+  const stage = await prisma.stage.findFirst({
+    where: {
+      id: stageId,
+      project: {
+        userId,
+      },
+    },
+  })
+
+  if (!stage) {
+    throw new Error('Stage not found or unauthorized')
+  }
+
+  const oldOrder = stage.order
+
+  return await prisma.$transaction(async (tx) => {
+    if (newOrder > oldOrder) {
+      // Movendo para baixo
+      await tx.stage.updateMany({
+        where: {
+          projectId,
+          order: {
+            gt: oldOrder,
+            lte: newOrder,
+          },
+          id: {
+            not: stageId,
+          },
+        },
+        data: {
+          order: {
+            decrement: 1,
+          },
+        },
+      })
+    } else {
+      // Movendo para cima
+      await tx.stage.updateMany({
+        where: {
+          projectId,
+          order: {
+            gte: newOrder,
+            lt: oldOrder,
+          },
+          id: {
+            not: stageId,
+          },
+        },
+        data: {
+          order: {
+            increment: 1,
+          },
+        },
+      })
+    }
+
+    return await tx.stage.update({
+      where: { id: stageId },
+      data: { order: newOrder },
+      include: {
+        tasks: {
+          orderBy: {
+            order: 'asc',
+          },
+        },
+      },
+    })
   })
 }
 

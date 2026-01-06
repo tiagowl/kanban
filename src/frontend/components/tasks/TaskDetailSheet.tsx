@@ -19,7 +19,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Trash2, Plus, X, Edit2, Save } from 'lucide-react'
+import { Trash2, Plus, X, Edit2, Save, Check } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 
 interface TaskDetailSheetProps {
@@ -43,6 +43,8 @@ export function TaskDetailSheet({
   const [stages, setStages] = useState<any[]>([])
   const [subtasks, setSubtasks] = useState<Subtask[]>(task.subtasks || [])
   const [newSubtaskTitle, setNewSubtaskTitle] = useState('')
+  const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null)
+  const [editingSubtaskTitle, setEditingSubtaskTitle] = useState('')
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
   const { labels } = useLabels(task.stage?.projectId || undefined)
@@ -186,6 +188,48 @@ export function TaskDetailSheet({
     }
   }
 
+  const handleStartEditSubtask = (subtask: Subtask) => {
+    setEditingSubtaskId(subtask.id)
+    setEditingSubtaskTitle(subtask.title)
+  }
+
+  const handleCancelEditSubtask = () => {
+    setEditingSubtaskId(null)
+    setEditingSubtaskTitle('')
+  }
+
+  const handleSaveSubtask = async (subtaskId: string) => {
+    if (!editingSubtaskTitle.trim()) {
+      toast({
+        title: 'Erro',
+        description: 'O título da sub-tarefa não pode estar vazio',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    try {
+      const updated = await api.patch(`/subtasks/${subtaskId}`, {
+        title: editingSubtaskTitle.trim(),
+      })
+      setSubtasks((prev) =>
+        prev.map((st) => (st.id === subtaskId ? updated : st))
+      )
+      setEditingSubtaskId(null)
+      setEditingSubtaskTitle('')
+      toast({
+        title: 'Sucesso',
+        description: 'Sub-tarefa atualizada!',
+      })
+    } catch (error) {
+      toast({
+        title: 'Erro',
+        description: 'Não foi possível atualizar a sub-tarefa',
+        variant: 'destructive',
+      })
+    }
+  }
+
   const handleAddLabel = async (labelId: string) => {
     try {
       await api.post(`/tasks/${task.id}/labels`, { labelId })
@@ -225,9 +269,9 @@ export function TaskDetailSheet({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
-        <SheetHeader>
-          <div className="flex items-center justify-between">
-            <SheetTitle>Detalhes da Tarefa</SheetTitle>
+        <SheetHeader className="space-y-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <SheetTitle className="text-lg sm:text-xl">Detalhes da Tarefa</SheetTitle>
             <div className="flex gap-2">
               {!isEditing ? (
                 <Button
@@ -259,7 +303,7 @@ export function TaskDetailSheet({
           </div>
         </SheetHeader>
 
-        <div className="mt-6 space-y-6">
+        <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6">
           <div className="space-y-2">
             <LabelComponent>Título</LabelComponent>
             {isEditing ? (
@@ -372,24 +416,72 @@ export function TaskDetailSheet({
                     onCheckedChange={() =>
                       handleToggleSubtask(subtask.id, subtask.completed)
                     }
+                    disabled={editingSubtaskId === subtask.id}
                   />
-                  <span
-                    className={`flex-1 text-sm ${
-                      subtask.completed
-                        ? 'line-through text-muted-foreground'
-                        : ''
-                    }`}
-                  >
-                    {subtask.title}
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-6 w-6"
-                    onClick={() => handleDeleteSubtask(subtask.id)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
+                  {editingSubtaskId === subtask.id ? (
+                    <>
+                      <Input
+                        value={editingSubtaskTitle}
+                        onChange={(e) => setEditingSubtaskTitle(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            handleSaveSubtask(subtask.id)
+                          } else if (e.key === 'Escape') {
+                            handleCancelEditSubtask()
+                          }
+                        }}
+                        className="flex-1 h-8 text-sm"
+                        autoFocus
+                        placeholder="Título da sub-tarefa"
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={() => handleSaveSubtask(subtask.id)}
+                      >
+                        <Check className="h-3 w-3 text-green-600" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={handleCancelEditSubtask}
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <span
+                        className={`flex-1 text-sm ${
+                          subtask.completed
+                            ? 'line-through text-muted-foreground'
+                            : ''
+                        }`}
+                      >
+                        {subtask.title}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={() => handleStartEditSubtask(subtask)}
+                        title="Editar sub-tarefa"
+                      >
+                        <Edit2 className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={() => handleDeleteSubtask(subtask.id)}
+                        title="Excluir sub-tarefa"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
