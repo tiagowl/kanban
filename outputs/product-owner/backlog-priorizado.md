@@ -370,3 +370,4 @@ Utilizando **MoSCoW** (Must Have, Should Have, Could Have, Won't Have) combinado
 - ✅ Todas as user stories implementadas
 - ✅ UX polida e refinada
 
+

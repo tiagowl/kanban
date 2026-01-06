@@ -635,3 +635,4 @@ Etiquetas: [🔴 Urgente ×] [🟡 Frontend ×] [+ Adicionar]
    - Fornecer assets e animações
    - Estabelecer sistema de design
 
+

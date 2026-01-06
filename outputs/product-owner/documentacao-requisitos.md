@@ -156,3 +156,4 @@ Usuário
 - Modelo de dados suporta crescimento
 - Estrutura preparada para features futuras (compartilhamento, equipes, etc.)
 
+

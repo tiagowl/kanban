@@ -811,3 +811,4 @@ Este guia fornece as bases para desenvolvimento consistente e eficiente no Siste
 
 **Atualizações:** Este guia deve ser atualizado conforme o projeto evolui e novos padrões são estabelecidos.
 
+

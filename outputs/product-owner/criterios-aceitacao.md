@@ -332,3 +332,4 @@
 - ✅ Padrão de cores do design system
 - ✅ Mensagens em português (ou idioma definido)
 
+
