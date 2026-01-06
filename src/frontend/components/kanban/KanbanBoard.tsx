@@ -7,7 +7,6 @@ import { KanbanColumn } from './KanbanColumn'
 import { DndContext, DragEndEvent, DragOverEvent, DragStartEvent, PointerSensor, useSensor, useSensors, DragOverlay, closestCenter } from '@dnd-kit/core'
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
 import { useToast } from '@/components/ui/use-toast'
-import { Task } from '@/types'
 
 interface KanbanBoardProps {
   projectId: string
