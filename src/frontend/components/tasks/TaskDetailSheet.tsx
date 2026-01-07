@@ -76,7 +76,7 @@ export function TaskDetailSheet({
 
   async function fetchSubtasks() {
     try {
-      const data = await api.get(`/tasks/${task.id}/subtasks`)
+      const data = await api.get<Subtask[]>(`/tasks/${task.id}/subtasks`)
       setSubtasks(data)
     } catch (error) {
       console.error('Error fetching subtasks:', error)
