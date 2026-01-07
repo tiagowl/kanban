@@ -1,4 +1,4 @@
-import jwt, { SignOptions } from 'jsonwebtoken'
+import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import { NextRequest } from 'next/server'
 
@@ -23,8 +23,8 @@ export function comparePassword(password: string, hash: string): Promise<boolean
 }
 
 export function generateToken(payload: JWTPayload): string {
-  return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN as string,
+  return jwt.sign(payload, JWT_SECRET as Secret, {
+    expiresIn: JWT_EXPIRES_IN,
   })
 }
 
