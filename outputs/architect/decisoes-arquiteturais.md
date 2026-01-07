@@ -612,3 +612,5 @@ Estas decisões arquiteturais fornecem uma base sólida e consistente para o des
 
 
 
+
+

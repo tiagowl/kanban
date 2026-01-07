@@ -1,13 +1,15 @@
-import jwt, { Secret } from 'jsonwebtoken'
+import jwt, { Secret, SignOptions } from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import { NextRequest } from 'next/server'
 
-const JWT_SECRET = process.env.JWT_SECRET || ''
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d'
+const JWT_SECRET_ENV = process.env.JWT_SECRET
+const JWT_EXPIRES_IN: string = process.env.JWT_EXPIRES_IN || '7d'
 
-if (!JWT_SECRET) {
+if (!JWT_SECRET_ENV) {
   throw new Error('JWT_SECRET environment variable is not set')
 }
+
+const JWT_SECRET: string = JWT_SECRET_ENV
 
 export interface JWTPayload {
   userId: string
@@ -23,9 +25,11 @@ export function comparePassword(password: string, hash: string): Promise<boolean
 }
 
 export function generateToken(payload: JWTPayload): string {
-  return jwt.sign(payload, JWT_SECRET as Secret, {
+  const secret: Secret = JWT_SECRET
+  const options: SignOptions = {
     expiresIn: JWT_EXPIRES_IN,
-  })
+  }
+  return jwt.sign(payload, secret, options)
 }
 
 export function verifyToken(token: string): JWTPayload | null {
