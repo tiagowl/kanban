@@ -611,3 +611,4 @@ Estas decisões arquiteturais fornecem uma base sólida e consistente para o des
 **Revisão Periódica**: ADRs devem ser revisados a cada sprint ou quando houver mudanças significativas nos requisitos.
 
 
+

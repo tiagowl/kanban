@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Task, Subtask, Label } from '@/types'
+import { Task, Subtask, Label, Stage } from '@/types'
 import { api } from '@/lib/api'
 import { useLabels } from '@/hooks/useLabels'
 import {
@@ -40,7 +40,7 @@ export function TaskDetailSheet({
   const [title, setTitle] = useState(task.title)
   const [description, setDescription] = useState(task.description || '')
   const [stageId, setStageId] = useState(task.stageId)
-  const [stages, setStages] = useState<any[]>([])
+  const [stages, setStages] = useState<Stage[]>([])
   const [subtasks, setSubtasks] = useState<Subtask[]>(task.subtasks || [])
   const [newSubtaskTitle, setNewSubtaskTitle] = useState('')
   const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null)
@@ -66,7 +66,7 @@ export function TaskDetailSheet({
 
   async function fetchStages() {
     try {
-      const data = await api.get(`/projects/${task.stage?.projectId}/stages`)
+      const data = await api.get<Stage[]>(`/projects/${task.stage?.projectId}/stages`)
       setStages(data)
     } catch (error) {
       console.error('Error fetching stages:', error)

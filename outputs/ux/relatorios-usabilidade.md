@@ -513,3 +513,4 @@ Os testes de usabilidade revelaram que o sistema Kanban atende bem às necessida
 **Status Geral**: ✅ Sistema está no caminho certo, com ajustes pontuais necessários para excelência.
 
 
+

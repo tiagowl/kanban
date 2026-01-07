@@ -100,3 +100,4 @@ export function StageCard({ stage, index, onEdit, onDelete }: StageCardProps) {
   )
 }
 
+

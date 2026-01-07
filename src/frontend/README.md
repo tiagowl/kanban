@@ -155,3 +155,4 @@ O sistema usa JWT para autenticação. O token é armazenado no `localStorage` e
 - Verifique se todas as dependências estão instaladas
 
 
+

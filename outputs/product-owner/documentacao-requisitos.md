@@ -157,3 +157,4 @@ Usuário
 - Estrutura preparada para features futuras (compartilhamento, equipes, etc.)
 
 
+
