@@ -86,7 +86,7 @@ export function TaskDetailSheet({
   const handleSave = async () => {
     setLoading(true)
     try {
-      const updated = await api.patch(`/tasks/${task.id}`, {
+      const updated = await api.patch<Task>(`/tasks/${task.id}`, {
         title,
         description: description || undefined,
         stageId,
@@ -135,7 +135,7 @@ export function TaskDetailSheet({
     if (!newSubtaskTitle.trim()) return
 
     try {
-      const subtask = await api.post(`/tasks/${task.id}/subtasks`, {
+      const subtask = await api.post<Subtask>(`/tasks/${task.id}/subtasks`, {
         title: newSubtaskTitle,
         taskId: task.id,
       })
@@ -156,7 +156,7 @@ export function TaskDetailSheet({
 
   const handleToggleSubtask = async (subtaskId: string, completed: boolean) => {
     try {
-      const updated = await api.patch(`/subtasks/${subtaskId}`, {
+      const updated = await api.patch<Subtask>(`/subtasks/${subtaskId}`, {
         completed: !completed,
       })
       setSubtasks((prev) =>
@@ -209,7 +209,7 @@ export function TaskDetailSheet({
     }
 
     try {
-      const updated = await api.patch(`/subtasks/${subtaskId}`, {
+      const updated = await api.patch<Subtask>(`/subtasks/${subtaskId}`, {
         title: editingSubtaskTitle.trim(),
       })
       setSubtasks((prev) =>
@@ -233,7 +233,7 @@ export function TaskDetailSheet({
   const handleAddLabel = async (labelId: string) => {
     try {
       await api.post(`/tasks/${task.id}/labels`, { labelId })
-      const updated = await api.get(`/tasks/${task.id}`)
+      const updated = await api.get<Task>(`/tasks/${task.id}`)
       setTask(updated)
       toast({
         title: 'Sucesso',
@@ -251,7 +251,7 @@ export function TaskDetailSheet({
   const handleRemoveLabel = async (labelId: string) => {
     try {
       await api.delete(`/tasks/${task.id}/labels?labelId=${labelId}`)
-      const updated = await api.get(`/tasks/${task.id}`)
+      const updated = await api.get<Task>(`/tasks/${task.id}`)
       setTask(updated)
       toast({
         title: 'Sucesso',
