@@ -1,25 +1,14 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function middleware(request: NextRequest) {
-  try {
-    const pathname = request.nextUrl?.pathname ?? ''
-    const publicRoutes = ['/login', '/register']
-    const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route))
-
-    if (isPublicRoute) {
-      return NextResponse.next()
-    }
-
-    return NextResponse.next()
-  } catch {
-    return NextResponse.next()
-  }
+// Middleware disabled: was causing MIDDLEWARE_INVOCATION_FAILED on Vercel Edge.
+// Auth is enforced in client-side pages (login/register redirect, protected routes).
+export function middleware(_request: NextRequest) {
+  return NextResponse.next()
 }
 
 export const config = {
-  matcher: [
-    '/((?!api|_next|favicon.ico).*)',
-  ],
+  // Unreachable path so middleware is never invoked (avoids Edge 500)
+  matcher: ['/__middleware_off'],
 }
 
