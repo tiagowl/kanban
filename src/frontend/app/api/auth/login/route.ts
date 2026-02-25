@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { comparePassword, generateToken } from '@/lib/auth'
 import { loginSchema } from '@/lib/validations'
 import { ZodError } from 'zod'
 
@@ -8,6 +6,9 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { email, password } = loginSchema.parse(body)
+
+    const { prisma } = await import('@/lib/prisma')
+    const { comparePassword, generateToken } = await import('@/lib/auth')
 
     const user = await prisma.user.findUnique({
       where: { email },

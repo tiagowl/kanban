@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { hashPassword, generateToken } from '@/lib/auth'
 import { registerSchema } from '@/lib/validations'
 import { ZodError } from 'zod'
 
@@ -8,6 +6,9 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { email, password, name } = registerSchema.parse(body)
+
+    const { prisma } = await import('@/lib/prisma')
+    const { hashPassword, generateToken } = await import('@/lib/auth')
 
     // Verificar se email já existe
     const existingUser = await prisma.user.findUnique({

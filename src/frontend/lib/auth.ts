@@ -7,6 +7,10 @@ const JWT_EXPIRES_IN: string = process.env.JWT_EXPIRES_IN || '7d'
 function getJwtSecret(): string {
   const secret = process.env.JWT_SECRET
   if (!secret) {
+    // Avoid throwing during Next.js build when env vars are not available
+    if (process.env.NEXT_PHASE === 'phase-production-build') {
+      return 'build-placeholder'
+    }
     throw new Error('JWT_SECRET environment variable is not set')
   }
   return secret
