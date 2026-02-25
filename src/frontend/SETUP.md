@@ -134,6 +134,23 @@ npm run type-check
 npm run lint
 ```
 
+## Deploy no Vercel (Produção)
+
+Para o app funcionar em produção **é obrigatório** configurar o **Root Directory**:
+
+1. No [Vercel Dashboard](https://vercel.com), abra o projeto.
+2. **Settings** → **General** → **Root Directory**.
+3. Clique em **Edit**, marque **Include source files outside of the Root Directory** se precisar.
+4. Defina o diretório raiz como: **`src/frontend`** (sem barra no final).
+5. Salve e faça um novo deploy (**Redeploy**).
+
+Se o Root Directory não for `src/frontend`, o Vercel faz o build na raiz do repositório (onde não está o Next.js) e você verá **404 NOT_FOUND** ao acessar o site.
+
+**Variáveis de ambiente no Vercel:** em **Settings** → **Environment Variables**, configure:
+- `DATABASE_URL` (connection string do Neon/PostgreSQL)
+- `JWT_SECRET`
+- Opcional: `JWT_EXPIRES_IN`, `NEXT_PUBLIC_APP_URL` (URL do app em produção)
+
 ## 🎉 Pronto!
 
 Agora você pode usar todas as funcionalidades do sistema:
