@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateAuth } from '@/lib/auth'
 import { subtaskSchema } from '@/lib/validations'
-import { createSubtask, getSubtasksByTask } from '@/services/subtaskService'
 import { ZodError } from 'zod'
 
 export async function GET(
@@ -9,6 +7,8 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { getSubtasksByTask } = await import('@/services/subtaskService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
@@ -44,6 +44,8 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { createSubtask } = await import('@/services/subtaskService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(

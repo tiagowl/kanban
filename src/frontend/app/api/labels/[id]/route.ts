@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateAuth } from '@/lib/auth'
 import { labelSchema } from '@/lib/validations'
-import { getLabelById, updateLabel, deleteLabel } from '@/services/labelService'
 import { ZodError } from 'zod'
 
 export async function GET(
@@ -9,6 +7,8 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { getLabelById } = await import('@/services/labelService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
@@ -44,6 +44,8 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { updateLabel } = await import('@/services/labelService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
@@ -95,6 +97,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { deleteLabel } = await import('@/services/labelService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(

@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateAuth } from '@/lib/auth'
-import { addLabelToTask, removeLabelFromTask } from '@/services/labelService'
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { addLabelToTask } = await import('@/services/labelService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
@@ -52,6 +52,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { removeLabelFromTask } = await import('@/services/labelService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(

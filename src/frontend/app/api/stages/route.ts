@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateAuth } from '@/lib/auth'
-import { getStagesByProject } from '@/services/stageService'
 
 export async function GET(request: NextRequest) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { getStagesByProject } = await import('@/services/stageService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(

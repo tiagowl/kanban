@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateAuth } from '@/lib/auth'
 import { taskSchema } from '@/lib/validations'
-import { getTaskById, updateTask, deleteTask } from '@/services/taskService'
 import { ZodError } from 'zod'
 
 export async function GET(
@@ -9,6 +7,8 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { getTaskById } = await import('@/services/taskService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
@@ -44,6 +44,8 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { updateTask } = await import('@/services/taskService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
@@ -95,6 +97,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { deleteTask } = await import('@/services/taskService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(

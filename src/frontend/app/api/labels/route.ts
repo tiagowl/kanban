@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateAuth } from '@/lib/auth'
 import { labelSchema } from '@/lib/validations'
-import { createLabel, getLabelsByProject } from '@/services/labelService'
 import { ZodError } from 'zod'
 
 export async function GET(request: NextRequest) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { getLabelsByProject } = await import('@/services/labelService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
@@ -41,6 +41,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { createLabel } = await import('@/services/labelService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(

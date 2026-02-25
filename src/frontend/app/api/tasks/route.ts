@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateAuth } from '@/lib/auth'
 import { taskSchema } from '@/lib/validations'
-import { createTask, getTasksByProject } from '@/services/taskService'
 import { ZodError } from 'zod'
 
 export async function GET(request: NextRequest) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { getTasksByProject } = await import('@/services/taskService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
@@ -41,6 +41,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { createTask } = await import('@/services/taskService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(

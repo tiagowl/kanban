@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateAuth } from '@/lib/auth'
 import { stageSchema } from '@/lib/validations'
-import { getStageById, updateStage, deleteStage } from '@/services/stageService'
 import { ZodError } from 'zod'
 
 export async function GET(
@@ -9,6 +7,8 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { getStageById } = await import('@/services/stageService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
@@ -44,6 +44,8 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { updateStage } = await import('@/services/stageService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
@@ -95,6 +97,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { deleteStage } = await import('@/services/stageService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(

@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { validateAuth } from '@/lib/auth'
 import { moveTaskSchema } from '@/lib/validations'
-import { moveTask } from '@/services/taskService'
 import { ZodError } from 'zod'
 
 export async function POST(
@@ -9,6 +7,8 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { moveTask } = await import('@/services/taskService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
