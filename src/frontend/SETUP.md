@@ -136,17 +136,28 @@ npm run lint
 
 ## Deploy no Vercel (Produção)
 
-Para o app funcionar em produção **é obrigatório** configurar o **Root Directory**:
+### 1. Root Directory (obrigatório)
 
 1. No [Vercel Dashboard](https://vercel.com), abra o projeto.
 2. **Settings** → **General** → **Root Directory**.
-3. Clique em **Edit**, marque **Include source files outside of the Root Directory** se precisar.
-4. Defina o diretório raiz como: **`src/frontend`** (sem barra no final).
-5. Salve e faça um novo deploy (**Redeploy**).
+3. Clique em **Edit** e defina: **`src/frontend`** (sem barra no final).
+4. Salve.
 
-Se o Root Directory não for `src/frontend`, o Vercel faz o build na raiz do repositório (onde não está o Next.js) e você verá **404 NOT_FOUND** ao acessar o site.
+### 2. Output Directory (importante)
 
-**Variáveis de ambiente no Vercel:** em **Settings** → **Environment Variables**, configure:
+- Em **Settings** → **General** → **Output Directory**: deixe **em branco** (não preencha).
+- O Next.js gera os arquivos em `.next` por padrão; o Vercel usa isso automaticamente.
+- Se estiver preenchido (ex.: `src/frontend` ou `out`), apague e salve. Caso contrário aparece erro de `routes-manifest.json` não encontrado.
+
+### 3. Build and Development Settings
+
+- **Framework Preset:** Next.js (detectado automaticamente).
+- **Build Command:** em branco (usa `next build` por padrão) ou `npm run build`.
+- **Install Command:** em branco (usa `npm install` por padrão) ou `npm install`.
+
+### 4. Variáveis de ambiente
+
+Em **Settings** → **Environment Variables**, configure:
 - `DATABASE_URL` (connection string do Neon/PostgreSQL)
 - `JWT_SECRET`
 - Opcional: `JWT_EXPIRES_IN`, `NEXT_PUBLIC_APP_URL` (URL do app em produção)
