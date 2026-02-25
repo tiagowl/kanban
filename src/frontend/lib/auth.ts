@@ -26,9 +26,7 @@ export function comparePassword(password: string, hash: string): Promise<boolean
 
 export function generateToken(payload: JWTPayload): string {
   const secret: Secret = JWT_SECRET
-  const options: SignOptions = {
-    expiresIn: JWT_EXPIRES_IN,
-  }
+  const options = { expiresIn: JWT_EXPIRES_IN } as SignOptions
   return jwt.sign(payload, secret, options)
 }
 
