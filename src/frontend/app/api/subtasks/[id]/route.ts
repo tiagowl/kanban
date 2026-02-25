@@ -44,6 +44,8 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { validateAuth } = await import('@/lib/auth')
+    const { updateSubtask } = await import('@/services/subtaskService')
     const user = await validateAuth(request)
     if (!user) {
       return NextResponse.json(
